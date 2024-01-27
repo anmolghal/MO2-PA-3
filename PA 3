@@ -3,3 +3,44 @@ public class BinaryFormatException extends Exception {
         super(message);
     }
 }
+
+public class BinaryConverter {
+
+    public static void main(String[] args) {
+        try {
+            System.out.println(bin2Dec("1101")); // Example usage
+        } catch (BinaryFormatException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+
+    public static int bin2Dec(String binaryString) throws BinaryFormatException {
+        // Check if the string is a valid binary string
+        if (!isBinaryString(binaryString)) {
+            throw new BinaryFormatException("Invalid binary string: " + binaryString);
+        }
+
+        // Convert the binary string to decimal
+        int decimal = 0;
+        int binaryLength = binaryString.length();
+
+        for (int i = 0; i < binaryLength; i++) {
+            char binaryChar = binaryString.charAt(i);
+            int binaryDigit = Character.getNumericValue(binaryChar);
+
+            decimal += binaryDigit * Math.pow(2, binaryLength - 1 - i);
+        }
+
+        return decimal;
+    }
+
+    private static boolean isBinaryString(String str) {
+        // Check if the string contains only 0s and 1s
+        for (char c : str.toCharArray()) {
+            if (c != '0' && c != '1') {
+                return false;
+            }
+        }
+        return true;
+    }
+}
